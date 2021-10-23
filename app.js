@@ -7,7 +7,7 @@ import path from 'path';
 import fs from 'fs';
 
 const app = express()
-const port = process.env.PORT || 8000
+const port = process.env.PORT || 80
 
 // Cretae folder
 if (!fs.existsSync('./public/file')) fs.mkdirSync('./public/file')
@@ -20,8 +20,20 @@ function makeid(length) {
         result += characters.charAt(Math.floor(Math.random() *
             charactersLength));
     }
-    return result;
+    return result;.toLowerCase()
 }
+
+function formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+} 
 
 app.set('json spaces', 2)
 app.use(cors())
@@ -48,7 +60,7 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage,
     limits: {
-        fileSize: 10000000 // 10 MB
+        fileSize: 50000000 // 50 MB
     }
 })
 
@@ -63,12 +75,11 @@ app.post('/upload', upload.single('file'), (req, res) => {
     })
     res.status(200).json({
         status: true,
-        message: "Created by aqulzz",
         result: {
             originalname: req.file.originalname,
             encoding: req.file.encoding,
             mimetype: req.file.mimetype,
-            size: req.file.size,
+            size: formatBytes(req.file.size),
             url: "https://" + req.hostname + "/file/" + req.file.filename
         }
     })
@@ -89,13 +100,12 @@ app.post('/multi-upload', upload.array('files', 10), (req, res) => {
             originalname: v.originalname,
             encoding: v.encoding,
             mimetype: v.mimetype,
-            size: v.size,
+            size: formatBytes(v.size),
             url: "https://" + req.hostname + "/file/" + v.filename
         })
     });
     res.status(200).json({
         status: true,
-        message: "Created by aqulzz",
         result: result
     })
 })
