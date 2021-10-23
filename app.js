@@ -20,7 +20,7 @@ function makeid(length) {
         result += characters.charAt(Math.floor(Math.random() *
             charactersLength));
     }
-    return result;.toLowerCase()
+    return result.toLowerCase()
 }
 
 function formatBytes(bytes, decimals = 2) {
