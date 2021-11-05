@@ -65,7 +65,7 @@ const upload = multer({
 })
 
 app.get('/', (req, res) => {
-    res.status(200).sendFile(__dirname+'/public/index.html')
+    res.status(200).sendFile(process.cwd()+'/public/index.html')
 })
 
 app.post('/upload', upload.single('file'), (req, res) => {
