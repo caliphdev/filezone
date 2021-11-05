@@ -10,7 +10,7 @@ const app = express()
 const port = process.env.PORT || 80
 
 // Cretae folder
-if (!fs.existsSync(__dirname + '/public/file')) fs.mkdirSync('./public/file')
+if (!fs.existsSync(process.cwd() + '/public/file')) fs.mkdirSync('./public/file')
 
 function makeid(length) {
     let result = '';
@@ -20,7 +20,7 @@ function makeid(length) {
         result += characters.charAt(Math.floor(Math.random() *
             charactersLength));
     }
-    return result.toLowerCase()
+    return result
 }
 
 function formatBytes(bytes, decimals = 2) {
@@ -39,7 +39,7 @@ app.set('json spaces', 2)
 app.use(cors())
 app.use(logger('dev'))
 app.use(express.json())
-app.use(express.static(__dirname+'/public'))
+app.use(express.static(process.cwd()+'/public'))
 app.use(express.urlencoded({
     extended: false
 }))
@@ -50,9 +50,9 @@ app.use(function (err, req, res, next) {
 })
 
 const storage = multer.diskStorage({
-    destination: __dirname+'/public/file',
+    destination: process.cwd()'/public/file',
     filename: (req, file, cb) => {
-        cb(null, makeid(12) +
+        cb(null, makeid(6) +
             path.extname(file.originalname))
     }
 });
