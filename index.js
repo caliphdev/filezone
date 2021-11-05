@@ -50,7 +50,7 @@ app.use(function (err, req, res, next) {
 })
 
 const storage = multer.diskStorage({
-    destination: process.cwd()'/public/file',
+    destination: process.cwd()+'/public/file',
     filename: (req, file, cb) => {
         cb(null, makeid(6) +
             path.extname(file.originalname))
