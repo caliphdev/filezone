@@ -10,7 +10,7 @@ const app = express()
 const port = process.env.PORT || 80
 
 // Cretae folder
-if (!fs.existsSync(process.cwd() + '/public/file')) fs.mkdirSync(process.cwd()+'./public/file')
+if (!fs.existsSync(process.cwd() + '/public/file')) fs.mkdirSync(process.cwd()+'/public/file')
 
 function makeid(length) {
     let result = '';
