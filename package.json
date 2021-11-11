@@ -6,11 +6,11 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ."
+    "start": "node index"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zennn08/express-uploader.git"
+    "url": "git+https://github.com/caliph91/express-upload"
   },
   "keywords": [
     "express-uploader"
@@ -18,9 +18,9 @@
   "author": "aqulzz",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/zennn08/express-uploader/issues"
+    "url": "https://github.com/caliph91/express-upload"
   },
-  "homepage": "https://github.com/zennn08/express-uploader#readme",
+  "homepage": "https://github.com/caliph91/express-upload",
   "dependencies": {
     "axios": "^0.21.4",
     "cheerio": "^1.0.0-rc.10",
