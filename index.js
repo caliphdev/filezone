@@ -35,6 +35,10 @@ function formatBytes(bytes, decimals = 2) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 } 
 
+app.use((req, res, next) => {
+if (req.hostname != "cdn.clph.me") return res.redirect("https://cdn.clph.me"+req.url)
+next()
+})
 app.set('json spaces', 2)
 app.use(cors())
 app.use(logger('dev'))
@@ -52,7 +56,7 @@ app.use(function (err, req, res, next) {
 const storage = multer.diskStorage({
     destination: 'public/file',
     filename: (req, file, cb) => {
-        cb(null, makeid(6) +
+        cb(null, makeid(10) +
             path.extname(file.originalname))
     }
 });
@@ -60,7 +64,7 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage,
     limits: {
-        fileSize: 50000000 // 50 MB
+        fileSize: Infinity // 50 MB
     }
 })
 
