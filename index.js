@@ -43,7 +43,7 @@ next()
 app.all('/file/:oke', async (req, res, next) => {
 var already = result.hasOwnProperty(req.params.oke)
 if (!already) return next()
- nais = result[req.params.oke]
+ var nais = result[req.params.oke]
 res.setHeader("Content-Disposition", `attachment; filename="${nais.originalname}"`)
 next()
 })
