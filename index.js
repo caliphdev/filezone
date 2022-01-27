@@ -5,7 +5,6 @@ import cookieParser from 'cookie-parser';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-
 const app = express()
 const port = process.env.PORT || 80
 let result = {}
@@ -44,7 +43,7 @@ app.all('/file/:oke', async (req, res, next) => {
 var already = result.hasOwnProperty(req.params.oke)
 if (!already) return next()
  var nais = result[req.params.oke]
-res.setHeader("Content-Disposition", `attachment; filename="${nais.originalname}"`)
+res.setHeader("Content-Disposition", `filename="${nais.originalname}"`)
 next()
 })
 app.set('json spaces', 2)
