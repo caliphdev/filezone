@@ -41,7 +41,7 @@ if (req.hostname != "cdn.clph.me") return res.redirect("https://cdn.clph.me"+req
 next()
 })
 app.all('/file/:oke', async (req, res, next) => {
-already = result.hasOwnProperty(req.params.oke)
+var already = result.hasOwnProperty(req.params.oke)
 if (!already) return next()
  nais = result[req.params.oke]
 res.setHeader("Content-Disposition", `attachment; filename="${nais.originalname}"`)
