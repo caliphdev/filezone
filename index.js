@@ -8,6 +8,7 @@ import fs from 'fs';
 
 const app = express()
 const port = process.env.PORT || 80
+let result = {}
 
 // Cretae folder
 if (!fs.existsSync('./public/file')) fs.mkdirSync('./public/file')
@@ -37,6 +38,13 @@ function formatBytes(bytes, decimals = 2) {
 
 app.use((req, res, next) => {
 if (req.hostname != "cdn.clph.me") return res.redirect("https://cdn.clph.me"+req.url)
+next()
+})
+app.all('/file/:oke', async (req, res, next) => {
+already = result.hasOwnProperty(req.params.oke)
+if (!already) return next()
+ nais = result[req.params.oke]
+res.setHeader("Content-Disposition", `attachment; filename="${nais.originalname}"`)
 next()
 })
 app.set('json spaces', 2)
@@ -77,6 +85,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
         status: false,
         message: "No file uploaded"
     })
+    result[req.file.filename] = req.file
     res.status(200).json({
         status: true,
         result: {
@@ -100,6 +109,7 @@ app.post('/multi-upload', upload.array('files', 10), (req, res) => {
     })
     const result = []
     req.files.forEach(v => {
+        result[v.filename] = v
         result.push({
             originalname: v.originalname,
             encoding: v.encoding,
@@ -116,10 +126,7 @@ app.post('/multi-upload', upload.array('files', 10), (req, res) => {
 
 // Handling 404
 app.use(function (req, res, next) {
-    res.status(404).json({
-        status: false,
-        message: "Page not found"
-    })
+    res.status(404).send()
 })
 
 app.listen(port, () => {
