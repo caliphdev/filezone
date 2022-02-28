@@ -36,7 +36,7 @@ function formatBytes(bytes, decimals = 2) {
 } 
 
 app.use((req, res, next) => {
-if (req.hostname != "cdn.clph.me") return res.redirect("https://cdn.clph.me"+req.url)
+// if (req.hostname != "cdn.clph.me") return res.redirect("https://cdn.clph.me"+req.url)
 next()
 })
 app.all('/file/:oke', async (req, res, next) => {
