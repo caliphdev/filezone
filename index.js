@@ -5,8 +5,10 @@ import cookieParser from 'cookie-parser';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+const VIEW_ROOT = path.join(process.cwd(), "views");
+const ROOT = path.join(process.cwd(), "public");
 const app = express()
-const port = process.env.PORT || 80
+const port = process.env.PORT || 3344
 let result = {}
 
 // Cretae folder
@@ -35,10 +37,7 @@ function formatBytes(bytes, decimals = 2) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 } 
 
-app.use((req, res, next) => {
-// if (req.hostname != "cdn.clph.me") return res.redirect("https://cdn.clph.me"+req.url)
-next()
-})
+
 app.all('/file/:oke', async (req, res, next) => {
 var already = result.hasOwnProperty(req.params.oke)
 if (!already) return next()
@@ -50,7 +49,8 @@ app.set('json spaces', 2)
 app.use(cors())
 app.use(logger('dev'))
 app.use(express.json())
-app.use(express.static('public'))
+app.use(express.static(ROOT));
+app.set("view engine", "ejs");
 app.use(express.urlencoded({
     extended: false
 }))
@@ -76,23 +76,23 @@ const upload = multer({
 })
 
 app.get('/', (req, res) => {
-    res.status(200).sendFile('./public/index.html')
+    res.status(200).render('index')
 })
 
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/backend/upload.php', upload.single('file'), (req, res) => {
     if (!req.file.path) return res.status(400).json({
         status: false,
         message: "No file uploaded"
     })
     result[req.file.filename] = req.file
-    res.status(200).json({
+    res.status(200).render('result', {
         status: true,
         result: {
             originalname: req.file.originalname,
             encoding: req.file.encoding,
             mimetype: req.file.mimetype,
-            size: formatBytes(req.file.size),
-            url: "https://" + req.hostname + "/file/" + req.file.filename
+            filesize: formatBytes(req.file.size),
+            url: "/file/" + req.file.filename
         }
     })
 }, (error, req, res, next) => {
@@ -101,27 +101,6 @@ app.post('/upload', upload.single('file'), (req, res) => {
     })
 })
 
-app.post('/multi-upload', upload.array('files', 10), (req, res) => {
-    if (!req.files) return res.status(400).json({
-        status: false,
-        message: "No file uploaded"
-    })
-    const result = []
-    req.files.forEach(v => {
-        result[v.filename] = v
-        result.push({
-            originalname: v.originalname,
-            encoding: v.encoding,
-            mimetype: v.mimetype,
-            size: formatBytes(v.size),
-            url: "https://" + req.hostname + "/file/" + v.filename
-        })
-    });
-    res.status(200).json({
-        status: true,
-        result: result
-    })
-})
 
 // Handling 404
 app.use(function (req, res, next) {

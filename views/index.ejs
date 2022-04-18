@@ -1,0 +1,91 @@
+
+<!doctype HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Simple Upload File By Caliph">
+	<script type="text/javascript" src="/static/js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css"></script>
+	<link rel="stylesheet" href="/static/css/bootstrap-theme.min.css"></script>
+	<link rel="stylesheet" href="/static/css/animate.min.css"></script>
+	<title>File Zone - Upload File</title>
+<style>
+			.pulse2 {
+				display: inline-block;
+				margin-left: 80px;
+				height: 50px; 
+				
+			}
+			
+			.pulse2p {
+				transform: rotate(-15deg);
+				display: inline-block;
+			}
+		</style>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-16180617-29', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+<body style="background-image: url(static/uploader.jpg); 
+		background-position: right top; 
+		background-repeat: no-repeat;">
+<div class="container" id="container">
+<div class="page-header">
+<div class="col-md-12">
+<h1> File Zone </h1>
+</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(event) {
+    $('ul.nav.nav-tabs a:first').tab('show'); // Select first tab
+    $('ul.nav.nav-tabs a[href="'+ window.location.hash+ '"]').tab('show'); // Select tab by name if provided in location hash
+    $('ul.nav.nav-tabs a[data-toggle="tab"]').on('shown', function (event) {    // Update the location hash to current tab
+        window.location.hash= event.target.hash;
+    })
+});
+	</script>
+<div class="row">
+<div class="col-md-3 col-xs-0"></div>
+<div class="col-md-6 col-xs-12">
+<div class="panel panel-primary">
+<div class="panel-heading">Upload Your File</div>
+<div class="tabbable tabs-top panel-body">
+<ul class="nav nav-tabs" data-tabs="tab">
+<li><a data-toggle="tab">From File</a></li>
+</ul>
+<div class="tab-content" style="margin-top: 15px">
+<div class="tab-pane active" id="upload">
+<form action="/backend/upload.php" method="POST" enctype="multipart/form-data">
+<div class="form-group">
+<label>File: </label> <input type="file" name="file" id="file" class="form-control" required/>
+</div>
+<div style="font-size: x-small">
+Maximum file size: 100 MB </div>
+<div class="form-group">
+</div>
+<button style="margin-top: 1rem">Upload</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-12 text-center" style="margin-top: 50px">
+<p style="font-size: larger">Support us on</p>
+<p><a href="//caliph.my.id">2022 Made by Caliph</a>
+</p>
+</div>
+</div>
+</body>
+</html>

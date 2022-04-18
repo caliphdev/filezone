@@ -26,6 +26,7 @@
     "cheerio": "^1.0.0-rc.10",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "ejs": "github:caliph91/ejs",
     "express": "^4.17.1",
     "form-data": "^4.0.0",
     "morgan": "^1.10.0",
