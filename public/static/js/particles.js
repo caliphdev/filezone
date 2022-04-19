@@ -1,59 +1,41 @@
 tsParticles.load("tsparticles", {
   fpsLimit: 60,
   background: {
-    color: "#000"
+    color: "#0b032d"
   },
-  interactivity: {
-    events: {
-      onClick: { enable: true, mode: "push" },
-      onHover: {
-        enable: true,
-        mode: "repulse",
-        parallax: { enable: false, force: 60, smooth: 10 }
-      },
-      resize: true
-    },
-    modes: {
-      push: { quantity: 4 },
-      repulse: { distance: 200, duration: 0.4 }
-    }
+  backgroundMode: {
+    enable: true
   },
   particles: {
-    color: { value: "#ffffff" },
+    color: {
+      value: ["#f67e7d", "#843b62", "#621940"]
+    },
+    links: {
+      color: "#ffb997",
+      enable: true
+    },
     move: {
-      direction: "none",
       enable: true,
-      outModes: "out",
-      random: false,
-      speed: 2,
-      straight: false
-    },
-    number: {
-      density: {
-        enable: true,
-        area: 800
-      },
-      value: 80
-    },
-    opacity: {
-      animation: {
-        enable: true,
-        speed: 0.05,
-        sync: true,
-        startValue: "max",
-        count: 1,
-        destroy: "min"
-      },
-      value: {
-        min: 0,
-        max: 0.5
-      }
-    },
-    shape: {
-      type: "circle"
+      speed: 6
     },
     size: {
-      value: { min: 1, max: 5 }
+      value: 5,
+      random: {
+        enable: true,
+        minimumValue: 1
+      },
+      animation: {
+        enable: true,
+        speed: 2.5,
+        minimumValue: 1
+      }
+    },
+    opacity: {
+      value: 0.8,
+      random: {
+        enable: true,
+        minimumValue: 0.4
+      }
     }
   }
 });
