@@ -63,7 +63,7 @@ app.use(function (err, req, res, next) {
 const storage = multer.diskStorage({
     destination: 'public/file',
     filename: (req, file, cb) => {
-        cb(null, makeid(17) +
+        cb(null, makeid(20) + 
             path.extname(file.originalname))
     }
 });
@@ -118,7 +118,7 @@ app.post('/api/upload.php', upload.single('file'), (req, res) => {
             encoding: req.file.encoding,
             mimetype: req.file.mimetype,
             filesize: formatBytes(req.file.size),
-            url: "/file/" + req.file.filename
+            url: "https://cdn.filezone.cf/file/" + req.file.filename
         }
     })
 }, (error, req, res, next) => {
@@ -130,6 +130,7 @@ app.post('/api/upload.php', upload.single('file'), (req, res) => {
 
 // Handling 404
 app.use(function (req, res, next) {
+    if (/file/gi.test(req.path)) return res.status(400).send(`File ${req.path} not found</br>The file may have been deleted or does not exist`)
     res.status(404).send()
 })
 
