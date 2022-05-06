@@ -99,6 +99,12 @@ app.post('/backend/upload.php', upload.single('file'), (req, res) => {
             url: "/file/" + req.file.filename
         }
     })
+  }, (error, req, res, next) => {
+    res.status(400).json({
+        error: error.message
+    })
+   })
+
 app.post('/api/upload.php', upload.single('file'), (req, res) => {
     if (!req.file || !req.file.path) return res.status(400).json({
         status: false,
