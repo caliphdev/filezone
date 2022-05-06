@@ -11,12 +11,12 @@ const app = express()
 const port = process.env.PORT || 3344
 let result = {}
 
-// Cretae folder
+// Create folder
 if (!fs.existsSync('./public/file')) fs.mkdirSync('./public/file')
 
 function makeid(length) {
     let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters = '~~ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-~~';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() *
@@ -63,7 +63,7 @@ app.use(function (err, req, res, next) {
 const storage = multer.diskStorage({
     destination: 'public/file',
     filename: (req, file, cb) => {
-        cb(null, makeid(10) +
+        cb(null, makeid(17) +
             path.extname(file.originalname))
     }
 });
@@ -71,14 +71,18 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage,
     limits: {
-        fileSize: Infinity // 50 MB
+        fileSize: 2000000000 // 50 MB
     }
 })
 
+app.all((req, res, next) => {
+notallow = ["/backend/upload.php", "/api/upload.php"]
+if(notallow.includes(req.path) && /get/gi.test(req.method)) return res.status(405).send();
+next()
+})
 app.get('/', (req, res) => {
     res.status(200).render('index')
 })
-
 app.post('/backend/upload.php', upload.single('file'), (req, res) => {
     if (!req.file.path) return res.status(400).json({
         status: false,
@@ -86,6 +90,22 @@ app.post('/backend/upload.php', upload.single('file'), (req, res) => {
     })
     result[req.file.filename] = req.file
     res.status(200).render('result', {
+        status: true,
+        result: {
+            originalname: req.file.originalname,
+            encoding: req.file.encoding,
+            mimetype: req.file.mimetype,
+            filesize: formatBytes(req.file.size),
+            url: "/file/" + req.file.filename
+        }
+    })
+app.post('/api/upload.php', upload.single('file'), (req, res) => {
+    if (!req.file || !req.file.path) return res.status(400).json({
+        status: false,
+        message: "No file uploaded"
+    })
+    result[req.file.filename] = req.file
+    res.status(200).send({
         status: true,
         result: {
             originalname: req.file.originalname,
