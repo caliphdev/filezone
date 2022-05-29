@@ -1,14 +1,16 @@
 import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
+import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 const VIEW_ROOT = path.join(process.cwd(), "views");
 const ROOT = path.join(process.cwd(), "public");
-const app = express()
-const port = process.env.PORT || 3344
+const app = express();
+const port = process.env.PORT || 3344;
+config();
 let result = {}
 
 // Create folder
@@ -71,14 +73,13 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage,
     limits: {
-        fileSize: 2000000000 // 50 MB
+        fileSize: (process.env.MAX_BYTES && parseInt(process.env.MAX_BYTES)) || 104857600 // 1MB = 1048576 Bytes
     }
 })
 
-app.all((req, res, next) => {
-notallow = ["/backend/upload.php", "/api/upload.php"]
-if(notallow.includes(req.path) && /get/gi.test(req.method)) return res.status(405).send();
-next()
+app.get(["/backend/upload.php", "/api/upload.php"], (req, res, next) => {
+//notallow = ["/backend/upload.php", "/api/upload.php"]
+res.status(405).send();
 })
 app.get('/', (req, res) => {
     res.status(200).render('index')
@@ -96,7 +97,7 @@ app.post('/backend/upload.php', upload.single('file'), (req, res) => {
             encoding: req.file.encoding,
             mimetype: req.file.mimetype,
             filesize: formatBytes(req.file.size),
-            url: "/file/" + req.file.filename
+            url: `${req.protocol}://${req.hostname == "localhost" ? `localhost:${process.env.PORT}` : req.hostname}/file/" + req.file.filename
         }
     })
   }, (error, req, res, next) => {
@@ -118,7 +119,7 @@ app.post('/api/upload.php', upload.single('file'), (req, res) => {
             encoding: req.file.encoding,
             mimetype: req.file.mimetype,
             filesize: formatBytes(req.file.size),
-            url: "https://cdn.filezone.cf/file/" + req.file.filename
+            url: `${req.protocol}://${req.hostname == "localhost" ? `localhost:${process.env.PORT}` : req.hostname}/file/` + req.file.filename
         }
     })
 }, (error, req, res, next) => {
