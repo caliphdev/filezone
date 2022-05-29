@@ -92,6 +92,7 @@ app.post('/backend/upload.php', upload.single('file'), (req, res) => {
     result[req.file.filename] = req.file
     res.status(200).render('result', {
         status: true,
+        MaxSize: formatBytes(parseInt(process.env.MAX_BYTES || "104857600")),
         result: {
             originalname: req.file.originalname,
             encoding: req.file.encoding,
