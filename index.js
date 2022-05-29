@@ -82,7 +82,7 @@ app.get(["/backend/upload.php", "/api/upload.php"], (req, res, next) => {
 res.status(405).send();
 })
 app.get('/', (req, res) => {
-    res.status(200).render('index')
+    res.status(200).render('index', { MaxSize: formatBytes(parseInt(process.env.MAX_BYTES || "104857600")) })
 })
 app.post('/backend/upload.php', upload.single('file'), (req, res) => {
     if (!req.file.path) return res.status(400).json({
