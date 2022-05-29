@@ -1,5 +1,5 @@
 {
-  "name": "express-uploader",
+  "name": "filezone",
   "version": "1.0.0",
   "description": "",
   "exports": "./index.js",
@@ -10,17 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/caliph91/express-upload"
+    "url": "git+https://github.com/caliphdev/filezone"
   },
-  "keywords": [
-    "express-uploader"
-  ],
-  "author": "aqulzz",
+  "keywords": [],
+  "author": "caliphdev",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/caliph91/express-upload"
+    "url": "https://github.com/caliphdev/filezone"
   },
-  "homepage": "https://github.com/caliph91/express-upload",
+  "homepage": "https://github.com/caliphdev/filezone",
   "dependencies": {
     "axios": "^0.21.4",
     "cheerio": "^1.0.0-rc.10",
