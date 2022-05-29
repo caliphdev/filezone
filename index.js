@@ -9,8 +9,8 @@ import fs from 'fs';
 const VIEW_ROOT = path.join(process.cwd(), "views");
 const ROOT = path.join(process.cwd(), "public");
 const app = express();
-const port = process.env.PORT || 3344;
 config();
+const port = process.env.PORT || 3344;
 let result = {}
 
 // Create folder
