@@ -97,7 +97,7 @@ app.post('/backend/upload.php', upload.single('file'), (req, res) => {
             encoding: req.file.encoding,
             mimetype: req.file.mimetype,
             filesize: formatBytes(req.file.size),
-            url: `${req.protocol}://${req.hostname == "localhost" ? `localhost:${process.env.PORT}` : req.hostname}/file/" + req.file.filename
+            url: `${req.protocol}://${req.hostname == "localhost" ? "localhost:"+process.env.PORT : req.hostname}/file/" + req.file.filename
         }
     })
   }, (error, req, res, next) => {
@@ -119,7 +119,7 @@ app.post('/api/upload.php', upload.single('file'), (req, res) => {
             encoding: req.file.encoding,
             mimetype: req.file.mimetype,
             filesize: formatBytes(req.file.size),
-            url: `${req.protocol}://${req.hostname == "localhost" ? `localhost:${process.env.PORT}` : req.hostname}/file/` + req.file.filename
+            url: `${req.protocol}://${req.hostname == "localhost" ? "localhost:"+process.env.PORT : req.hostname}/file/` + req.file.filename
         }
     })
 }, (error, req, res, next) => {
@@ -136,5 +136,5 @@ app.use(function (req, res, next) {
 })
 
 app.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`)
+    console.log(`App listening at PORT ${port}`)
 })
