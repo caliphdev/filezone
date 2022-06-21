@@ -16,7 +16,7 @@ tsParticles.load("tsparticles", {
     },
     move: {
       enable: true,
-      speed: 6
+      speed: 1.5
     },
     size: {
       value: 5,
