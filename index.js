@@ -69,8 +69,6 @@ next()
 })
 app.set('json spaces', 2)
 app.use(cors())
-
-app.use(express.static(ROOT), serveIndex(ROOT, { icons: true }))
 app.use(express.json())
 app.set("view engine", "ejs");
 app.use(express.urlencoded({
@@ -149,10 +147,12 @@ app.post('/api/upload.php', upload.single('file'), (req, res) => {
     })
 })
 
+app.use(express.static(ROOT), serveIndex(ROOT, { icons: true }))
+
 
 // Handling 404
 app.use(function (req, res, next) {
-    if (/file/gi.test(req.path)) return res.status(400).send(`File ${req.path} not found</br>The file may have been deleted or does not exist`)
+    if (/file/gi.test(req.path)) return res.status(404).send(`File ${req.path} not found</br>The file may have been deleted or does not exist`)
     res.status(404).send()
 })
 
