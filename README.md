@@ -3,7 +3,7 @@ Upload File
 
 ## Demo
 <p align="center">
-<a href="//filezone.cf"><img alt="FileZone By Caliph Dev." src="https://uploader.caliph.my.id/file/pXsu63qqux.png"></img></a>
+<a href="//filezone.cf"><img alt="FileZone By Caliph Dev." src="http://uploader.caliph.my.id/file/j90jWxU2ENUjDVMZjSCw.png"></img></a>
 </p>
 
 
