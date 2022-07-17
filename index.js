@@ -5,6 +5,7 @@ import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
 import path from 'path';
+import serveIndex from 'serve-index';
 import fs from 'fs';
 const VIEW_ROOT = path.join(process.cwd(), "views");
 const ROOT = path.join(process.cwd(), "public");
@@ -67,8 +68,9 @@ next()
 })
 app.set('json spaces', 2)
 app.use(cors())
+
+app.use(express.static(ROOT), serveIndex(ROOT, { icons: true }))
 app.use(express.json())
-app.use(express.static(ROOT));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({
     extended: false
