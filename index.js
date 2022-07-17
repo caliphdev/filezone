@@ -38,18 +38,35 @@ function formatBytes(bytes, decimals = 2) {
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 } 
+function status(code) {
+if (code > 400 && code < 499) return require('chalk').yellow(code)
+if (code > 500 && code < 599) return require('chalk').red(code)
+if (code > 299 && code < 399) return require('chalk').cyan(code)
+if (code > 199) return require('chalk').green(code)
+return require('chalk').yellow(code)
+}
 
+app.use(logger(function (tokens, req, res) {
+  return [
+    req.ip,
+    // req.headers['user-agent'],
+    tokens.method(req, res),
+    tokens.url(req, res),
+    status(tokens.status(req, res)),
+    tokens['response-time'](req, res)+ ' ms',
+    formatBytes(isNaN(tokens.res(req, res, 'content-length')) ? 0 : tokens.res(req, res, 'content-length')), 
+  ].join(' | ')
+}))
 
 app.all('/file/:oke', async (req, res, next) => {
 var already = result.hasOwnProperty(req.params.oke)
 if (!already) return next()
  var nais = result[req.params.oke]
-res.setHeader("Content-Disposition", `filename="${nais.originalname}"`)
+res.setHeader("Content-Disposition", `filename="${nais.originalname}"`).catch(() => {})
 next()
 })
 app.set('json spaces', 2)
 app.use(cors())
-app.use(logger('dev'))
 app.use(express.json())
 app.use(express.static(ROOT));
 app.set("view engine", "ejs");
