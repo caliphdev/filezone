@@ -64,7 +64,7 @@ app.all('/file/:oke', async (req, res, next) => {
 var already = result.hasOwnProperty(req.params.oke)
 if (!already) return next()
  var nais = result[req.params.oke]
-res.setHeader("Content-Disposition", `filename="${nais.originalname}"`).catch(() => {})
+if (nais.originalname) res.setHeader("Content-Disposition", `filename="${nais.originalname}"`)
 next()
 })
 app.set('json spaces', 2)
