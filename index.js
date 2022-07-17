@@ -3,6 +3,7 @@ import logger from 'morgan';
 import cors from 'cors';
 import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
+import chalk from "chalk";
 import multer from 'multer';
 import path from 'path';
 import serveIndex from 'serve-index';
@@ -40,11 +41,11 @@ function formatBytes(bytes, decimals = 2) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 } 
 function status(code) {
-if (code > 400 && code < 499) return require('chalk').yellow(code)
-if (code > 500 && code < 599) return require('chalk').red(code)
-if (code > 299 && code < 399) return require('chalk').cyan(code)
-if (code > 199) return require('chalk').green(code)
-return require('chalk').yellow(code)
+if (code > 400 && code < 499) return chalk.yellow(code)
+if (code > 500 && code < 599) return chalk.red(code)
+if (code > 299 && code < 399) return chalk.cyan(code)
+if (code > 199) return chalk.green(code)
+return chalk.yellow(code)
 }
 
 app.use(logger(function (tokens, req, res) {
