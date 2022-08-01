@@ -152,8 +152,8 @@ app.use(express.static(ROOT), serveIndex(ROOT, { icons: true }))
 
 // Handling 404
 app.use(function (req, res, next) {
-    if (/file/gi.test(req.path)) return res.status(404).send(`File ${req.path} not found</br>The file may have been deleted or does not exist`)
-    res.status(404).send()
+    if (/file/gi.test(req.path)) return res.status(404).render('errorpage', { statuscode: 404, statusmsg: 'File Not Found', title: '404 - File Not Found' })
+    res.status(404).render('errorpage', { statuscode: 404, statusmsg: 'Not Found', title: '404 - Page Not Found' })
 })
 
 app.listen(port, () => {
