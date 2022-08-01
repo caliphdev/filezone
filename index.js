@@ -95,13 +95,16 @@ const upload = multer({
     }
 })
 
-app.get(["/backend/upload.php", "/api/upload.php"], (req, res, next) => {
+// Error 405 Pages (Method Not Allowed)
+app.get(["/backend/upload.php", "/api/upload.php", "/upload"], (req, res, next) => {
 //notallow = ["/backend/upload.php", "/api/upload.php"]
-res.status(405).send();
+res.status(405).render('errorpage', { title: '405 - Method Not Allowed', statuscode: 405, statusmsg: 'Method Not Allowed' });
 })
 app.get('/', (req, res) => {
     res.status(200).render('index', { MaxSize: formatBytes(parseInt(process.env.MAX_BYTES || "104857600")) })
 })
+
+// Backend Upload File
 app.post('/backend/upload.php', upload.single('file'), (req, res) => {
     if (!req.file.path) return res.status(400).json({
         status: false,
@@ -125,7 +128,9 @@ app.post('/backend/upload.php', upload.single('file'), (req, res) => {
     })
    })
 
-app.post('/api/upload.php', upload.single('file'), (req, res) => {
+
+// API Method
+app.post(['/api/upload.php', '/upload'], upload.single('file'), (req, res) => {
     if (!req.file || !req.file.path) return res.status(400).json({
         status: false,
         message: "No file uploaded"
