@@ -1,3 +1,4 @@
+# This repo is outdated, New repo [Filezone-v2](https://github.com/caliphdev/filezone-v2)
 # filezone
 Upload File
 
